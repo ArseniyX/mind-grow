@@ -3,21 +3,21 @@ import { Star } from "lucide-react";
 
 const testimonials = [
     {
-        quote: "MindGrow helped me understand myself better than I ever thought possible. The identity exercises were eye-opening and the daily structure keeps me motivated.",
+        quote: "MindGrow helped me understand myself better than I ever thought possible. The identity exercises were eye-opening and the daily routines keep me motivated.",
         author: "Sarah Chen",
         role: "Marketing Manager",
         avatar: "S",
         gradient: "from-primary to-chart-2"
     },
     {
-        quote: "The emotional control techniques have been life-changing. I feel more balanced and confident in handling stress. Highly recommend to anyone seeking growth.",
+        quote: "The emotional mastery techniques have been life-changing. I feel more balanced and confident in handling stress. Highly recommend to anyone seeking growth.",
         author: "Michael Rodriguez",
         role: "Software Engineer",
         avatar: "M",
         gradient: "from-chart-2 to-accent"
     },
     {
-        quote: "Building better habits has never been easier. The structure module gave me the framework I needed to create lasting positive changes in my daily routine.",
+        quote: "Building better habits has never been easier. The daily routines module gave me the framework I needed to create lasting positive changes in my daily routine.",
         author: "Emily Johnson",
         role: "Teacher",
         avatar: "E",

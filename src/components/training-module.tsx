@@ -57,7 +57,7 @@ const moduleContent = {
     ],
   },
   emotional: {
-    title: "Emotional Control",
+    title: "Emotional Mastery",
     description: "Master your emotions and stress responses",
     color: "text-accent",
     bgColor: "bg-accent/10",
@@ -89,7 +89,7 @@ const moduleContent = {
     ],
   },
   structure: {
-    title: "Life Structure",
+    title: "Daily Routines",
     description: "Build sustainable habits and routines",
     color: "text-secondary",
     bgColor: "bg-secondary/10",

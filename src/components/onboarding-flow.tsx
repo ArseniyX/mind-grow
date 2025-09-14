@@ -23,7 +23,7 @@ const onboardingSteps = [
     {
         id: 2,
         icon: Heart,
-        title: "Master Emotional Control",
+        title: "Master Emotional Mastery",
         description:
             "Learn practical techniques to manage stress, anxiety, and emotional responses.",
         color: "text-accent",
@@ -32,7 +32,7 @@ const onboardingSteps = [
     {
         id: 3,
         icon: Target,
-        title: "Build Life Structure",
+        title: "Build Daily Routines",
         description:
             "Create sustainable daily routines and habits that support your personal growth.",
         color: "text-secondary",

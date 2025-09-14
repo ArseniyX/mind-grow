@@ -44,7 +44,7 @@ export function Dashboard({ user }: DashboardProps) {
     },
     {
       id: "emotional",
-      title: "Emotional Control",
+      title: "Emotional Mastery",
       description: "Master your emotions and stress responses",
       icon: Heart,
       progress: 60,
@@ -57,7 +57,7 @@ export function Dashboard({ user }: DashboardProps) {
     },
     {
       id: "structure",
-      title: "Structure",
+      title: "Daily Routines",
       description: "Build sustainable habits and routines",
       icon: Target,
       progress: 20,

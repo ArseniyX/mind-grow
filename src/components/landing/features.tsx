@@ -17,7 +17,7 @@ const features = [
     },
     {
         icon: Heart,
-        title: "Emotional Control",
+        title: "Emotional Mastery",
         description: "Master your emotions with proven techniques for stress management, mindfulness practices, and emotional regulation skills.",
         gradient: "from-chart-2/20 to-accent/20",
         iconColor: "text-chart-2",
@@ -30,7 +30,7 @@ const features = [
     },
     {
         icon: Target,
-        title: "Structure",
+        title: "Daily Routines",
         description: "Build lasting positive habits with daily routines, goal setting frameworks, and progress tracking systems that create sustainable change.",
         gradient: "from-accent/20 to-primary/20",
         iconColor: "text-accent-foreground",
