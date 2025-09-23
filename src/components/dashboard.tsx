@@ -78,7 +78,12 @@ export function Dashboard({ user }: DashboardProps) {
   }
 
   const handleModuleClick = (moduleId: string) => {
-    setActiveModule(moduleId)
+    if (moduleId === 'identity') {
+      // Navigate to identity development section
+      window.location.href = '/identity';
+    } else {
+      setActiveModule(moduleId)
+    }
   }
 
   const handleBackToDashboard = () => {
@@ -90,22 +95,24 @@ export function Dashboard({ user }: DashboardProps) {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-accent/5">
       {/* Header */}
-      <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-10">
-        <div className="max-w-4xl mx-auto px-4 py-4">
+      <header className="border-b border-border/50 bg-card/80 backdrop-blur-md sticky top-0 z-10 shadow-sm">
+        <div className="max-w-5xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="flex items-center space-x-2">
-                <Sparkles className="h-6 w-6 text-primary" />
-                <h1 className="text-xl font-bold text-foreground">MindGrow</h1>
+                <div className="p-2 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20">
+                  <Sparkles className="h-5 w-5 text-primary" />
+                </div>
+                <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">MindGrow</h1>
               </div>
             </div>
-            <div className="flex items-center space-x-3">
-              <Button variant="ghost" size="sm">
+            <div className="flex items-center space-x-2">
+              <Button variant="ghost" size="sm" className="rounded-xl hover:bg-primary/10">
                 <User className="h-4 w-4" />
               </Button>
-              <Button variant="ghost" size="sm">
+              <Button variant="ghost" size="sm" className="rounded-xl hover:bg-primary/10">
                 <Settings className="h-4 w-4" />
               </Button>
             </div>
@@ -113,47 +120,57 @@ export function Dashboard({ user }: DashboardProps) {
         </div>
       </header>
 
-      <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
+      <div className="max-w-5xl mx-auto px-4 py-8 space-y-8">
         {/* Welcome Section */}
-        <div className="space-y-2">
-          <h2 className="text-2xl font-bold text-foreground">Welcome back, {user.name.split(" ")[0]}!</h2>
-          <p className="text-muted-foreground">Continue your personal growth journey</p>
+        <div className="space-y-3">
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">Welcome back, {user.name.split(" ")[0]}!</h2>
+          <p className="text-muted-foreground text-lg">Continue your personal growth journey</p>
         </div>
 
         {/* Today's Progress */}
-        <Card className="border-border/50">
-          <CardHeader>
+        <Card className="border-border/30 shadow-lg bg-gradient-to-br from-card via-card to-primary/5">
+          <CardHeader className="pb-4">
             <CardTitle className="flex items-center space-x-2">
-              <TrendingUp className="h-5 w-5 text-primary" />
-              <span>Today&apos;s Progress</span>
+              <div className="p-2 rounded-lg bg-primary/10">
+                <TrendingUp className="h-4 w-4 text-primary" />
+              </div>
+              <span className="text-lg">Today&apos;s Progress</span>
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="text-center space-y-1">
-                <div className="text-2xl font-bold text-primary">{todayStats.streak}</div>
-                <div className="text-sm text-muted-foreground">Day Streak</div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              <div className="text-center space-y-2">
+                <div className="p-3 rounded-xl bg-primary/10 inline-block">
+                  <div className="text-3xl font-bold text-primary">{todayStats.streak}</div>
+                </div>
+                <div className="text-sm font-medium text-muted-foreground">Day Streak 🔥</div>
               </div>
-              <div className="text-center space-y-1">
-                <div className="text-2xl font-bold text-accent">{todayStats.minutesSpent}</div>
-                <div className="text-sm text-muted-foreground">Minutes</div>
+              <div className="text-center space-y-2">
+                <div className="p-3 rounded-xl bg-accent/10 inline-block">
+                  <div className="text-3xl font-bold text-accent">{todayStats.minutesSpent}</div>
+                </div>
+                <div className="text-sm font-medium text-muted-foreground">Minutes ⏱️</div>
               </div>
-              <div className="text-center space-y-1">
-                <div className="text-2xl font-bold text-secondary">{todayStats.exercisesCompleted}</div>
-                <div className="text-sm text-muted-foreground">Exercises</div>
+              <div className="text-center space-y-2">
+                <div className="p-3 rounded-xl bg-secondary/10 inline-block">
+                  <div className="text-3xl font-bold text-secondary">{todayStats.exercisesCompleted}</div>
+                </div>
+                <div className="text-sm font-medium text-muted-foreground">Exercises ✅</div>
               </div>
-              <div className="text-center space-y-1">
-                <div className="text-2xl font-bold text-foreground">{todayStats.weeklyGoal}%</div>
-                <div className="text-sm text-muted-foreground">Weekly Goal</div>
+              <div className="text-center space-y-2">
+                <div className="p-3 rounded-xl bg-muted inline-block">
+                  <div className="text-3xl font-bold text-foreground">{todayStats.weeklyGoal}%</div>
+                </div>
+                <div className="text-sm font-medium text-muted-foreground">Weekly Goal 🎯</div>
               </div>
             </div>
 
-            <div className="mt-4 space-y-2">
+            <div className="mt-6 p-4 rounded-xl bg-muted/50 space-y-3">
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Weekly Progress</span>
-                <span className="text-foreground">{todayStats.weeklyGoal}%</span>
+                <span className="text-muted-foreground font-medium">Weekly Progress</span>
+                <span className="font-bold text-primary">{todayStats.weeklyGoal}%</span>
               </div>
-              <Progress value={todayStats.weeklyGoal} className="h-2" />
+              <Progress value={todayStats.weeklyGoal} className="h-3 bg-muted" />
             </div>
           </CardContent>
         </Card>
@@ -171,8 +188,8 @@ export function Dashboard({ user }: DashboardProps) {
             {modules.map((module) => (
               <Card
                 key={module.id}
-                className={`border-border/50 hover:shadow-md transition-all cursor-pointer ${
-                  selectedModule === module.id ? "ring-2 ring-primary/20" : ""
+                className={`border-border/30 hover:shadow-xl transition-all duration-300 cursor-pointer bg-gradient-to-br from-card to-card/50 hover:scale-[1.02] ${
+                  selectedModule === module.id ? "ring-2 ring-primary/30 shadow-lg" : ""
                 }`}
                 onClick={() => setSelectedModule(selectedModule === module.id ? null : module.id)}
               >
@@ -181,9 +198,9 @@ export function Dashboard({ user }: DashboardProps) {
                     <div className="flex items-start space-x-4 flex-1">
                       {/* Icon */}
                       <div
-                        className={`flex items-center justify-center w-12 h-12 rounded-lg ${module.bgColor} ${module.borderColor} border`}
+                        className={`flex items-center justify-center w-14 h-14 rounded-xl ${module.bgColor} ${module.borderColor} border-2 shadow-sm`}
                       >
-                        <module.icon className={`h-6 w-6 ${module.color}`} />
+                        <module.icon className={`h-7 w-7 ${module.color}`} />
                       </div>
 
                       {/* Content */}
@@ -199,9 +216,9 @@ export function Dashboard({ user }: DashboardProps) {
                             <span className="text-muted-foreground">
                               {module.completed} of {module.exercises} exercises completed
                             </span>
-                            <span className="text-foreground font-medium">{module.progress}%</span>
+                            <span className="font-bold text-primary">{module.progress}%</span>
                           </div>
-                          <Progress value={module.progress} className="h-2" />
+                          <Progress value={module.progress} className="h-2.5 bg-muted" />
                         </div>
 
                         {/* Next Session */}
@@ -212,7 +229,7 @@ export function Dashboard({ user }: DashboardProps) {
                           </div>
                           <Button
                             size="sm"
-                            className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                            className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-primary-foreground shadow-md hover:shadow-lg transition-all duration-200"
                             onClick={(e) => {
                               e.stopPropagation()
                               handleModuleClick(module.id)
@@ -232,41 +249,49 @@ export function Dashboard({ user }: DashboardProps) {
         </div>
 
         {/* Quick Actions */}
-        <Card className="border-border/50">
-          <CardHeader>
+        <Card className="border-border/30 shadow-lg bg-gradient-to-br from-card via-card to-secondary/5">
+          <CardHeader className="pb-4">
             <CardTitle className="flex items-center space-x-2">
-              <Calendar className="h-5 w-5 text-primary" />
-              <span>Quick Actions</span>
+              <div className="p-2 rounded-lg bg-secondary/10">
+                <Calendar className="h-4 w-4 text-secondary" />
+              </div>
+              <span className="text-lg">Quick Actions</span>
             </CardTitle>
             <CardDescription>Start a session or review your progress</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              <Button variant="outline" className="justify-start h-auto p-4 bg-transparent">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <Button variant="outline" className="justify-start h-auto p-5 bg-gradient-to-br from-primary/5 to-transparent border-primary/20 hover:border-primary/40 hover:bg-primary/10 transition-all duration-200 group">
                 <div className="flex items-center space-x-3">
-                  <Brain className="h-5 w-5 text-primary" />
+                  <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                    <Brain className="h-5 w-5 text-primary" />
+                  </div>
                   <div className="text-left">
-                    <div className="font-medium">Daily Reflection</div>
+                    <div className="font-semibold">Daily Reflection</div>
                     <div className="text-sm text-muted-foreground">5 min session</div>
                   </div>
                 </div>
               </Button>
 
-              <Button variant="outline" className="justify-start h-auto p-4 bg-transparent">
+              <Button variant="outline" className="justify-start h-auto p-5 bg-gradient-to-br from-accent/5 to-transparent border-accent/20 hover:border-accent/40 hover:bg-accent/10 transition-all duration-200 group">
                 <div className="flex items-center space-x-3">
-                  <Heart className="h-5 w-5 text-accent" />
+                  <div className="p-2 rounded-lg bg-accent/10 group-hover:bg-accent/20 transition-colors">
+                    <Heart className="h-5 w-5 text-accent" />
+                  </div>
                   <div className="text-left">
-                    <div className="font-medium">Breathing Exercise</div>
+                    <div className="font-semibold">Breathing Exercise</div>
                     <div className="text-sm text-muted-foreground">3 min session</div>
                   </div>
                 </div>
               </Button>
 
-              <Button variant="outline" className="justify-start h-auto p-4 bg-transparent">
+              <Button variant="outline" className="justify-start h-auto p-5 bg-gradient-to-br from-secondary/5 to-transparent border-secondary/20 hover:border-secondary/40 hover:bg-secondary/10 transition-all duration-200 group">
                 <div className="flex items-center space-x-3">
-                  <Award className="h-5 w-5 text-secondary" />
+                  <div className="p-2 rounded-lg bg-secondary/10 group-hover:bg-secondary/20 transition-colors">
+                    <Award className="h-5 w-5 text-secondary" />
+                  </div>
                   <div className="text-left">
-                    <div className="font-medium">View Achievements</div>
+                    <div className="font-semibold">View Achievements</div>
                     <div className="text-sm text-muted-foreground">See progress</div>
                   </div>
                 </div>

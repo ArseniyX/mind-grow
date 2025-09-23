@@ -43,10 +43,14 @@ const onboardingSteps = [
 export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
     const [currentStep, setCurrentStep] = useState(0);
     const [isCompleting, setIsCompleting] = useState(false);
+    const [isTransitioning, setIsTransitioning] = useState(false);
 
-    const handleNext = () => {
+    const handleNext = async () => {
         if (currentStep < onboardingSteps.length - 1) {
+            setIsTransitioning(true);
+            await new Promise((resolve) => setTimeout(resolve, 150));
             setCurrentStep(currentStep + 1);
+            setIsTransitioning(false);
         } else {
             handleComplete();
         }
@@ -63,52 +67,73 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
     const CurrentIcon = onboardingSteps[currentStep].icon;
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-background via-card to-muted">
-            <div className="w-full max-w-lg space-y-6">
+        <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-background via-muted/30 to-primary/10">
+            <div className="w-full max-w-2xl space-y-8">
                 {/* Progress Header */}
-                <div className="text-center space-y-4">
-                    <div className="flex items-center justify-center space-x-2">
-                        <Sparkles className="h-6 w-6 text-primary" />
-                        <h1 className="text-xl font-semibold text-foreground">
+                <div className="text-center space-y-6">
+                    <div className="flex items-center justify-center space-x-3">
+                        <div className="p-3 rounded-2xl bg-gradient-to-br from-primary/20 to-accent/20 shadow-lg">
+                            <Sparkles className="h-6 w-6 text-primary" />
+                        </div>
+                        <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                             Welcome to MindGrow
                         </h1>
                     </div>
 
-                    <div className="space-y-2">
-                        <div className="flex justify-between text-sm text-muted-foreground">
-                            <span>
+                    <div className="space-y-3">
+                        <div className="flex justify-between text-sm font-medium">
+                            <span className="text-muted-foreground">
                                 Step {currentStep + 1} of{" "}
                                 {onboardingSteps.length}
                             </span>
-                            <span>{Math.round(progress)}% complete</span>
+                            <span className="text-primary font-bold">
+                                {Math.round(progress)}% complete
+                            </span>
                         </div>
-                        <Progress value={progress} className="h-2" />
+                        <div className="relative">
+                            <Progress
+                                value={progress}
+                                className="h-3 bg-muted/50"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full pointer-events-none" />
+                        </div>
                     </div>
                 </div>
 
                 {/* Current Step Card */}
-                <Card className="border-border/50 shadow-lg overflow-hidden">
+                <Card
+                    className={`border-border/30 shadow-2xl overflow-hidden bg-gradient-to-br py-0 from-card via-card to-primary/5 transition-all duration-500 ease-out transform ${
+                        isTransitioning
+                            ? "scale-95 opacity-70"
+                            : "scale-100 opacity-100"
+                    }`}
+                >
                     <CardContent className="p-0">
                         <div className="relative">
                             {/* Background Pattern */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
+                            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10" />
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-accent/20 to-transparent rounded-bl-full" />
+                            <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-primary/20 to-transparent rounded-tr-full" />
 
-                            <div className="relative p-8 text-center space-y-6">
+                            <div className="relative p-10 text-center space-y-8">
                                 {/* Icon */}
-                                <div
-                                    className={`inline-flex items-center justify-center w-16 h-16 rounded-full ${onboardingSteps[currentStep].bgColor}`}
-                                >
-                                    <CurrentIcon
-                                        className={`h-8 w-8 ${onboardingSteps[currentStep].color}`}
-                                    />
+                                <div className="relative inline-block">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-accent/30 rounded-full blur-xl" />
+                                    <div
+                                        className={`relative inline-flex items-center justify-center w-20 h-20 rounded-2xl ${onboardingSteps[currentStep].bgColor} border-2 border-primary/20 shadow-lg`}
+                                    >
+                                        <CurrentIcon
+                                            className={`h-10 w-10 ${onboardingSteps[currentStep].color}`}
+                                        />
+                                    </div>
                                 </div>
 
                                 {/* Content */}
-                                <div className="space-y-3">
-                                    <h2 className="text-2xl font-bold text-foreground text-balance">
+                                <div className="space-y-4">
+                                    <h2 className="text-3xl font-bold text-foreground text-balance leading-tight">
                                         {onboardingSteps[currentStep].title}
                                     </h2>
-                                    <p className="text-muted-foreground text-balance leading-relaxed">
+                                    <p className="text-lg text-muted-foreground text-balance leading-relaxed max-w-lg mx-auto">
                                         {
                                             onboardingSteps[currentStep]
                                                 .description
@@ -117,26 +142,26 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
                                 </div>
 
                                 {/* Features Preview */}
-                                <div className="grid grid-cols-1 gap-3 mt-6">
+                                <div className="bg-gradient-to-r from-muted/50 to-primary/5 rounded-2xl p-6 space-y-4">
                                     {currentStep === 0 && (
                                         <>
-                                            <div className="flex items-center space-x-3 text-sm text-muted-foreground">
-                                                <div className="w-2 h-2 rounded-full bg-primary" />
-                                                <span>
+                                            <div className="flex items-center space-x-4 text-sm">
+                                                <div className="w-3 h-3 rounded-full bg-gradient-to-r from-primary to-primary/60 shadow-sm" />
+                                                <span className="text-foreground font-medium">
                                                     Personality assessments and
                                                     insights
                                                 </span>
                                             </div>
-                                            <div className="flex items-center space-x-3 text-sm text-muted-foreground">
-                                                <div className="w-2 h-2 rounded-full bg-primary" />
-                                                <span>
+                                            <div className="flex items-center space-x-4 text-sm">
+                                                <div className="w-3 h-3 rounded-full bg-gradient-to-r from-primary to-primary/60 shadow-sm" />
+                                                <span className="text-foreground font-medium">
                                                     Values clarification
                                                     exercises
                                                 </span>
                                             </div>
-                                            <div className="flex items-center space-x-3 text-sm text-muted-foreground">
-                                                <div className="w-2 h-2 rounded-full bg-primary" />
-                                                <span>
+                                            <div className="flex items-center space-x-4 text-sm">
+                                                <div className="w-3 h-3 rounded-full bg-gradient-to-r from-primary to-primary/60 shadow-sm" />
+                                                <span className="text-foreground font-medium">
                                                     Goal setting and life vision
                                                 </span>
                                             </div>
@@ -145,22 +170,22 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
 
                                     {currentStep === 1 && (
                                         <>
-                                            <div className="flex items-center space-x-3 text-sm text-muted-foreground">
-                                                <div className="w-2 h-2 rounded-full bg-accent" />
-                                                <span>
+                                            <div className="flex items-center space-x-4 text-sm">
+                                                <div className="w-3 h-3 rounded-full bg-gradient-to-r from-accent to-accent/60 shadow-sm" />
+                                                <span className="text-foreground font-medium">
                                                     Mindfulness and meditation
                                                     practices
                                                 </span>
                                             </div>
-                                            <div className="flex items-center space-x-3 text-sm text-muted-foreground">
-                                                <div className="w-2 h-2 rounded-full bg-accent" />
-                                                <span>
+                                            <div className="flex items-center space-x-4 text-sm">
+                                                <div className="w-3 h-3 rounded-full bg-gradient-to-r from-accent to-accent/60 shadow-sm" />
+                                                <span className="text-foreground font-medium">
                                                     Stress management techniques
                                                 </span>
                                             </div>
-                                            <div className="flex items-center space-x-3 text-sm text-muted-foreground">
-                                                <div className="w-2 h-2 rounded-full bg-accent" />
-                                                <span>
+                                            <div className="flex items-center space-x-4 text-sm">
+                                                <div className="w-3 h-3 rounded-full bg-gradient-to-r from-accent to-accent/60 shadow-sm" />
+                                                <span className="text-foreground font-medium">
                                                     Emotional regulation tools
                                                 </span>
                                             </div>
@@ -169,21 +194,21 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
 
                                     {currentStep === 2 && (
                                         <>
-                                            <div className="flex items-center space-x-3 text-sm text-muted-foreground">
-                                                <div className="w-2 h-2 rounded-full bg-secondary" />
-                                                <span>
+                                            <div className="flex items-center space-x-4 text-sm">
+                                                <div className="w-3 h-3 rounded-full bg-gradient-to-r from-secondary to-secondary/60 shadow-sm" />
+                                                <span className="text-foreground font-medium">
                                                     Daily routine optimization
                                                 </span>
                                             </div>
-                                            <div className="flex items-center space-x-3 text-sm text-muted-foreground">
-                                                <div className="w-2 h-2 rounded-full bg-secondary" />
-                                                <span>
+                                            <div className="flex items-center space-x-4 text-sm">
+                                                <div className="w-3 h-3 rounded-full bg-gradient-to-r from-secondary to-secondary/60 shadow-sm" />
+                                                <span className="text-foreground font-medium">
                                                     Habit tracking and building
                                                 </span>
                                             </div>
-                                            <div className="flex items-center space-x-3 text-sm text-muted-foreground">
-                                                <div className="w-2 h-2 rounded-full bg-secondary" />
-                                                <span>
+                                            <div className="flex items-center space-x-4 text-sm">
+                                                <div className="w-3 h-3 rounded-full bg-gradient-to-r from-secondary to-secondary/60 shadow-sm" />
+                                                <span className="text-foreground font-medium">
                                                     Time management strategies
                                                 </span>
                                             </div>
@@ -196,14 +221,14 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
                 </Card>
 
                 {/* Navigation */}
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center pt-4">
                     <Button
                         variant="ghost"
                         onClick={() =>
                             setCurrentStep(Math.max(0, currentStep - 1))
                         }
                         disabled={currentStep === 0}
-                        className="text-muted-foreground hover:text-foreground"
+                        className="text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-200"
                     >
                         Previous
                     </Button>
@@ -222,21 +247,21 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
                     <Button
                         onClick={handleNext}
                         disabled={isCompleting}
-                        className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                        className="px-8 py-3 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-primary-foreground font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                     >
                         {isCompleting ? (
                             <div className="flex items-center space-x-2">
                                 <div className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
-                                <span>Starting...</span>
+                                <span>Starting your journey...</span>
                             </div>
                         ) : currentStep === onboardingSteps.length - 1 ? (
                             <div className="flex items-center space-x-2">
-                                <span>Get Started</span>
+                                <span>Begin Your Journey</span>
                                 <Sparkles className="h-4 w-4" />
                             </div>
                         ) : (
                             <div className="flex items-center space-x-2">
-                                <span>Next</span>
+                                <span>Continue</span>
                                 <ArrowRight className="h-4 w-4" />
                             </div>
                         )}
